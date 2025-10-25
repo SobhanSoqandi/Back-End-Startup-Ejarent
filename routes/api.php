@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Advertisements\AdvertisementsController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,4 +22,12 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::post('/generate-otp', [AuthController::class, 'generateOtp']);
+Route::post('/SendOtp', [AuthController::class, 'SendOtp']);
+
+Route::post('/check-otp', [AuthController::class, 'CheckOtp']);
+
+Route::get('/Advertisement/{Advertisement}/show', [AdvertisementsController::class , 'show']);
+
+Route::put('/Advertisement/{Advertisement}/update', [AdvertisementsController::class , 'update']);
+
+Route::post('/Advertisement/store', [AdvertisementsController::class, 'store']);
