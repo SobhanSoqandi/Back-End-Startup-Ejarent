@@ -17,17 +17,25 @@ class AdvertisementsController extends Controller
         ]);
     }
 
-    public function update(Advertisement $advertisement , Request $request)
+    public function update(Advertisement $advertisement, Request $request)
     {
-        // dd($request->all());
+        // dd($request->all()); 
         $advertisement->update(request()->all());
         $advertisement = Advertisement::find($advertisement->id);
         return response()->json([
             'message' => ' آگهی با موفقیت بروزرسانی شد ',
             "data" => $advertisement
-        ]  , status: 200);
+        ], status: 200);
     }
 
+
+    public function delete(Advertisement $advertisement)
+    {
+        $advertisement->delete();
+        return response()->json([
+            'message' => ' آگهی با موفقیت حذف شد ', 
+        ], status: 200);
+    }
 
 
 

@@ -24,10 +24,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/SendOtp', [AuthController::class, 'SendOtp']);
 
-Route::post('/check-otp', [AuthController::class, 'CheckOtp']);
+Route::post('/checkotp', [AuthController::class, 'CheckOtp']);
 
-Route::get('/Advertisement/{Advertisement}/show', [AdvertisementsController::class , 'show']);
+Route::get('/Advertisement/{advertisement}/show', [AdvertisementsController::class , 'show']);
 
-Route::put('/Advertisement/{Advertisement}/update', [AdvertisementsController::class , 'update']);
+Route::put('/Advertisement/{advertisement}/update', [AdvertisementsController::class , 'update']);
+
+Route::delete('/Advertisement/{advertisement}/delete', [AdvertisementsController::class , 'delete']);
 
 Route::post('/Advertisement/store', [AdvertisementsController::class, 'store']);
