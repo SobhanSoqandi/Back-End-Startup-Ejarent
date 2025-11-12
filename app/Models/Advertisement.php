@@ -13,5 +13,11 @@ class Advertisement extends Model
         'title',
         'description',
         'price',
+        'id_category',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

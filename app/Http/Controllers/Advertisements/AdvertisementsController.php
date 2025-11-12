@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Advertisements;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdvertisementStoreRequest;
 use App\Models\Advertisement;
 use Illuminate\Http\Request;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+// use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 class AdvertisementsController extends Controller
 {
@@ -15,6 +16,15 @@ class AdvertisementsController extends Controller
             'message' => ' اطلاعات با موفقیت دریافت شد ',
             "data" => $advertisement
         ]);
+    }
+
+    public function index()
+    {
+        $advertisement = Advertisement::all();
+        return response()->json([
+            'message' => ' لیست تمامی آگهی ها با موفقیت دریافت شد ',
+            'data' => $advertisement,
+        ], 200);
     }
 
     public function update(Advertisement $advertisement, Request $request)
@@ -33,28 +43,14 @@ class AdvertisementsController extends Controller
     {
         $advertisement->delete();
         return response()->json([
-            'message' => ' آگهی با موفقیت حذف شد ', 
+            'message' => ' آگهی با موفقیت حذف شد ',
         ], status: 200);
     }
 
 
-
-
-
-
-
-
-
-
     public function store(Request $request)
     {
-
-        $advertisement = Advertisement::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-        ]);
-
+        $advertisement = Advertisement::create($request->all());
         return response()->json([
             'message' => ' آگهی با موفقیت ایجاد شد ',
             'data' => $advertisement
