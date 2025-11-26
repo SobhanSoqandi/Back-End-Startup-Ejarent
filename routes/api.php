@@ -27,6 +27,9 @@ Route::post('/SendOtp', [AuthController::class, 'SendOtp']);
 
 Route::post('/checkotp', [AuthController::class, 'CheckOtp']);
 
+Route::post('/complete-profile', [AuthController::class, 'completeprofile']);
+
+
 
 
 // Advertisement
@@ -49,12 +52,6 @@ Route::delete('/category/{category}/delete', [categorycontroller::class, 'delete
 Route::put('/category/{category}/update', [categorycontroller::class, 'update']);
 
 // Route::get('/category/{category}/show', [categorycontroller::class, 'show']);
-
-
-
-// Route::middleware('auth:sanctum')->get('/admin' , function (Request $request) {
-//     return $request->category();
-// });
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/category/{category}/show', [categorycontroller::class, 'show']);

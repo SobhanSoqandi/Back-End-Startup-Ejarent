@@ -48,9 +48,9 @@ class AuthController extends Controller
             'otp' => 'required|numeric',
         ]);
 
-        
+
         $user = User::where('phoneNumber', $request->input('phoneNumber'))->first();
-   
+
         if ($user->otp !== $request->input('otp')) {
             return response()->json([
                 'message' => 'کد وارد شده صحیح نمی‌باشد',
@@ -58,7 +58,7 @@ class AuthController extends Controller
             ], 400);
         }
 
-    
+
         if (now()->greaterThan($user->otp_expires_at)) {
             return response()->json([
                 'message' => 'کد منقضی شده است، لطفاً مجدداً درخواست ارسال کد بدهید',
@@ -67,10 +67,19 @@ class AuthController extends Controller
         }
 
 
-        
+
         return response()->json([
             'message' => 'تایید شد، خوش آمدید',
             'valid' => true,
         ], 200);
+    }
+
+
+
+    public function completeprofile()
+    {
+        return response()->json([
+            'message' => 'Hellow'
+        ]);
     }
 }

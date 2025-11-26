@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+             $table->id();
             $table->string("name")->nullable();
             $table->string("phoneNumber");
             $table->string("otp");
-            // $table->timestamp('otp_expires_at')->nullable()->after('otp');
-            $table->timestamp('otp_created_at')->nullable()->after('otp_expires_at');
+            $table->timestamp('otp_created_at')->nullable();
+
+            $table->string('national_code')->nullable();
+            $table->string('profile_image')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tabel_products');
+        Schema::dropIfExists('users');
     }
 };

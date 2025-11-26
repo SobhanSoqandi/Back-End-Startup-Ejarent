@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('advertisements', function (Blueprint $table) {
-            $table->foreignId('Id_category')->nullable()->constrained('categories');
+            $table->string('national_code')->nullable();
+            $table->string('profile_image')->nullable();
         });
     }
 
@@ -21,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('advertisements');
+        Schema::table('advertisements', function (Blueprint $table) {
+            //
+        });
     }
 };
