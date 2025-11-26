@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\categories;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -11,10 +12,11 @@ class categorycontroller extends Controller
     public function store(Request $request)
     {
         $category = Category::create($request->all());
-
+        $token = $category->createToken('api//category/store');
         return response()->json([
             'message' => ' دسته بندی با موفقیت ایجاد شد ',
-            'data' => $category
+            'token' => $token->plainTextToken,
+            'data' => new CategoryResource($category)
         ], 200);
     }
 

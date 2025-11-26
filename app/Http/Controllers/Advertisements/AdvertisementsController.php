@@ -48,9 +48,9 @@ class AdvertisementsController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(AdvertisementStoreRequest $advertisementStoreRequest)
     {
-        $advertisement = Advertisement::create($request->all());
+        $advertisement = Advertisement::create($advertisementStoreRequest->all());
         return response()->json([
             'message' => ' آگهی با موفقیت ایجاد شد ',
             'data' => $advertisement

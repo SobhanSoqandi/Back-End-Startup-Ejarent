@@ -30,22 +30,32 @@ Route::post('/checkotp', [AuthController::class, 'CheckOtp']);
 
 
 // Advertisement
-Route::get('/Advertisements', [AdvertisementsController::class , 'index']);
+Route::get('/Advertisements', [AdvertisementsController::class, 'index']);
 
-Route::get('/Advertisement/{advertisement}/show', [AdvertisementsController::class , 'show']);
+Route::get('/Advertisement/{advertisement}/show', [AdvertisementsController::class, 'show']);
 
-Route::put('/Advertisement/{advertisement}/update', [AdvertisementsController::class , 'update']);
+Route::put('/Advertisement/{advertisement}/update', [AdvertisementsController::class, 'update']);
 
-Route::delete('/Advertisement/{advertisement}/delete', [AdvertisementsController::class , 'delete']);
+Route::delete('/Advertisement/{advertisement}/delete', [AdvertisementsController::class, 'delete']);
 
 Route::post('/Advertisement/store', [AdvertisementsController::class, 'store']);
 
 
 // Categories
-Route::post('/category/store', [categorycontroller::class , 'store']);
+Route::post('/category/store', [categorycontroller::class, 'store']);
 
-Route::delete('/category/{category}/delete', [categorycontroller::class , 'delete']);
+Route::delete('/category/{category}/delete', [categorycontroller::class, 'delete']);
 
-Route::put('/category/{category}/update', [categorycontroller::class , 'update']);
+Route::put('/category/{category}/update', [categorycontroller::class, 'update']);
 
-Route::get('/category/{category}/show', [categorycontroller::class , 'show']);
+// Route::get('/category/{category}/show', [categorycontroller::class, 'show']);
+
+
+
+// Route::middleware('auth:sanctum')->get('/admin' , function (Request $request) {
+//     return $request->category();
+// });
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/category/{category}/show', [categorycontroller::class, 'show']);
+});
