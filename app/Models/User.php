@@ -21,7 +21,9 @@ class User extends Authenticatable
         'name',
         'phoneNumber',
         'otp',
-        'otp_created_at'
+        'otp_created_at',
+        'national_code',
+        'profile_image'
     ];
 
     /**

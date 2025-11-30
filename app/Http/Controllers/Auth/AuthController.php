@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+// use Illuminate\Support\Facades\Storage::putFile();
 
 class AuthController extends Controller
 {
     public function SendOtp(Request $request)
     {
-
 
 
         $otp = rand(1000, 5000);
@@ -76,10 +80,30 @@ class AuthController extends Controller
 
 
 
-    public function completeprofile()
+
+    public function CompleteProfile(AuthRequest $authRequest)
     {
-        return response()->json([
-            'message' => 'Hellow'
+       
+
+        $user = User::where('phoneNumber', $authRequest->phoneNumber)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => ' کاربری یافت نشد , لطفا وارد سایت شوید '
+            ], 404);
+        }
+
+        $user_profile_image_url = Storage::putFile('/user/profile_images' , $authRequest->profile_image );
+
+        $user->update([
+            'name' => $authRequest->name,
+            'national_code' => $authRequest->national_code,
+            'profile_image' => $user_profile_image_url,
         ]);
+
+        return response()->json([
+            'message' => 'پروفایل با موفقیت تکمیل شد',
+            'user' => new UserResource($user)
+        ], 200);
     }
 }

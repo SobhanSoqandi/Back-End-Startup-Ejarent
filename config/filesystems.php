@@ -39,7 +39,15 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'user' => [
+            'driver' => 'local',
+            'root' => storage_path('app/user'),   // مسیر ذخیره سازی تصاویر پروفایل
+            'url' => env('APP_URL') . '/user',      // مسیر عمومی برای URL
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -57,6 +65,7 @@ return [
         ],
 
     ],
+
 
     /*
     |--------------------------------------------------------------------------
