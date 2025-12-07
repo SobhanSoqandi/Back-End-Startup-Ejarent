@@ -44,4 +44,13 @@ class categorycontroller extends Controller
             "data" => $category
         ]);
     }
+
+    public function index()
+    {
+        $categories = Category::all();
+        return response()->json([
+            'message' => 'لیست دسته بندی ها دریافت شد ',
+            'data' => $categories,
+        ], 201);
+    }
 }

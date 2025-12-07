@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Advertisements\AdvertisementsController;
+use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\categories\categorycontroller;
 use Illuminate\Http\Request;
@@ -47,6 +48,8 @@ Route::post('/Advertisement/store', [AdvertisementsController::class, 'store']);
 // Categories
 Route::post('/category/store', [categorycontroller::class, 'store']);
 
+Route::get('/categories', [categorycontroller::class, 'index']);
+
 Route::delete('/category/{category}/delete', [categorycontroller::class, 'delete']);
 
 Route::put('/category/{category}/update', [categorycontroller::class, 'update']);
@@ -56,3 +59,13 @@ Route::put('/category/{category}/update', [categorycontroller::class, 'update'])
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/category/{category}/show', [categorycontroller::class, 'show']);
 });
+
+
+
+// Attributes : 
+Route::get('/attributes', [AttributeController::class, 'index']);
+
+Route::post('/attribute/store', [AttributeController::class, 'store']);
+
+Route::put('/attribute/{attribute}/update', [AttributeController::class, 'update']);
+

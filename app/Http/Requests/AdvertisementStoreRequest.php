@@ -22,9 +22,16 @@ class AdvertisementStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required' , 'string'],
-            'description' => ['required' , 'string'],
-            'price' => ['required' , 'numeric']
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'price' => ['required', 'numeric'],
+            'images'       => ['nullable'],
+            'images.*' => ['image', 'mimes:jpg,jpeg,png', 'max:2048'],
+
+
+            'attributes'                 => ['nullable', 'array'],
+            'attributes.*.id'            => ['required_with:attributes', 'exists:attributes,id'],
+            'attributes.*.value'         => ['required_with:attributes'],
         ];
     }
 }

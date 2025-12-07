@@ -9,9 +9,22 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Category extends Authenticatable
 {
-    use HasApiTokens , HasFactory;
+    use HasApiTokens, HasFactory;
 
-       protected $fillable = [
+    protected $fillable = [
         'name',
     ];
+
+
+
+    public function attributes()
+    {
+        return $this->hasMany(Attribute::class);
+    }
+    
+
+    public function advertisements()
+    {
+        return $this->hasMany(Advertisement::class);
+    }
 }

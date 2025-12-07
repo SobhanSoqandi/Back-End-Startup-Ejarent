@@ -52,6 +52,15 @@ return [
             'throw' => false,
         ],
 
+        'advertisements' => [
+            'driver' => 'local',
+            'root' => storage_path('app/advertisements'),
+            'url' => env('APP_URL') . '/advertisements',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -81,6 +90,7 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
         public_path('user') => storage_path('app/user'),
+        public_path('advertisements') => storage_path('app/advertisements'),
     ],
 
 ];

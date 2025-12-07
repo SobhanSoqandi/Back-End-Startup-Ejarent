@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Advertisements;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdvertisementStoreRequest;
+// use App\Http\Requests\requ$request;
 use App\Models\Advertisement;
+use App\Models\AdvertisementAttributeValue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 // use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 class AdvertisementsController extends Controller
@@ -48,12 +51,40 @@ class AdvertisementsController extends Controller
     }
 
 
-    public function store(AdvertisementStoreRequest $advertisementStoreRequest)
+    public function store(Request $request)
     {
-        $advertisement = Advertisement::create($advertisementStoreRequest->all());
+        $advertisement = Advertisement::create($request->all());
+
+        if ($request->hasFile('images')) {
+
+            foreach ($request->file('images') as $image) {
+
+
+                $path = Storage::putFile('advertisements/images', $image);
+
+                $advertisement->images()->create([
+                    'image_path' => $path,
+                ]);
+            }
+        }
+
+
+        $attributes = $request->input('attributes', []);
+
+        foreach ($attributes as $attr) {
+            AdvertisementAttributeValue::create([
+                'advertisement_id' => $advertisement->id,
+                'attribute_id'     => $attr['id'],
+                'value'            => $attr['value'],
+            ]);
+        }
+
+
+
+
         return response()->json([
             'message' => ' آگهی با موفقیت ایجاد شد ',
-            'data' => $advertisement
-        ], 200);
+            'data' => $advertisement,
+        ], 201);
     }
 }
