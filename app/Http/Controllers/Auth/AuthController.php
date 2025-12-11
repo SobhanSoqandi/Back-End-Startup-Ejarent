@@ -15,8 +15,6 @@ class AuthController extends Controller
 {
     public function SendOtp(Request $request)
     {
-
-
         $otp = rand(1000, 5000);
 
         if (empty(trim($request->phoneNumber))) {
@@ -25,8 +23,6 @@ class AuthController extends Controller
             ], 400);
         }
 
-
-
         $user = User::updateOrCreate(
             ['phoneNumber' => $request->phoneNumber],
             [
@@ -34,8 +30,6 @@ class AuthController extends Controller
                 'otp_expires_at' => now()->addMinutes(2)
             ]
         );
-
-
 
         return response()->json([
             'message' => 'کد چهار رقمی به شماره‌ی ' . $user->phoneNumber . ' ارسال شد',
@@ -52,7 +46,6 @@ class AuthController extends Controller
             'otp' => 'required|numeric',
         ]);
 
-
         $user = User::where('phoneNumber', $request->input('phoneNumber'))->first();
 
         if ($user->otp !== $request->input('otp')) {
@@ -62,15 +55,12 @@ class AuthController extends Controller
             ], 400);
         }
 
-
         if (now()->greaterThan($user->otp_expires_at)) {
             return response()->json([
                 'message' => 'کد منقضی شده است، لطفاً مجدداً درخواست ارسال کد بدهید',
                 'valid' => false,
             ], 400);
         }
-
-
 
         return response()->json([
             'message' => 'تایید شد، خوش آمدید',
@@ -80,10 +70,8 @@ class AuthController extends Controller
 
 
 
-
     public function CompleteProfile(AuthRequest $authRequest)
     {
-       
 
         $user = User::where('phoneNumber', $authRequest->phoneNumber)->first();
 

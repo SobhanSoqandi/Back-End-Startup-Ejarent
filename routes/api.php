@@ -4,6 +4,7 @@ use App\Http\Controllers\Advertisements\AdvertisementsController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\categories\categorycontroller;
+use App\Http\Controllers\Reservation\ReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -68,4 +69,14 @@ Route::get('/attributes', [AttributeController::class, 'index']);
 Route::post('/attribute/store', [AttributeController::class, 'store']);
 
 Route::put('/attribute/{attribute}/update', [AttributeController::class, 'update']);
+
+
+// Reservation : 
+Route::post('/rent-request/store', [ReservationController::class, 'store']);
+
+Route::get('/myrequest/{userId}', [ReservationController::class, 'myRequest']);
+
+Route::get('/advertisement-request/{AdId}', [ReservationController::class, 'myAdvertisementRequest']);
+
+Route::put('/reserve/update-status/{reserveid}', [ReservationController::class, 'UpdateStatus']);
 
