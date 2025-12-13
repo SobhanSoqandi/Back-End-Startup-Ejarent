@@ -81,17 +81,62 @@ class AuthController extends Controller
             ], 404);
         }
 
-        $user_profile_image_url = Storage::putFile('/user/profile_images' , $authRequest->profile_image );
+        // $user_profile_image_url = Storage::putFile('/user/profile_images' , $authRequest->profile_image );
 
-        $user->update([
-            'name' => $authRequest->name,
-            'national_code' => $authRequest->national_code,
-            'profile_image' => $user_profile_image_url,
-        ]);
+        $user_profile_image_url = 'default/user.png';
+
+        if ($authRequest->hasFile('profile_image')) {
+            $user_profile_image_url = Storage::putFile('/user/profile_images', $authRequest->file('profile_image'));
+        }
+
+        $user->update(request()->all());
 
         return response()->json([
             'message' => 'پروفایل با موفقیت تکمیل شد',
             'user' => new UserResource($user)
         ], 200);
     }
+
+    // public function CompleteProfile(AuthRequest $authRequest)
+    // {
+    //     // 1. پیدا کردن کاربر
+    //     $user = User::where('phoneNumber', $authRequest->phoneNumber)->first();
+
+    //     if (!$user) {
+    //         return response()->json([
+    //             'message' => 'کاربری یافت نشد، لطفا وارد سایت شوید'
+    //         ], 404);
+    //     }
+
+    //     // 2. آماده کردن داده‌ها برای آپدیت
+    //     $updateData = [
+    //         'name' => $authRequest->name,
+    //         'national_code' => $authRequest->national_code,
+    //     ];
+
+    //     // 3. بررسی و آپلود عکس جدید
+    //     $profileImage = $authRequest->file('profile_image');
+
+    //     if ($profileImage) {
+    //         // 3.1 پاک کردن عکس قبلی (اگر وجود داشت)
+    //         if ($user->profile_image && Storage::exists($user->profile_image)) {
+    //             Storage::delete($user->profile_image);
+    //         }
+
+    //         // 3.2 آپلود عکس جدید
+    //         $user_profile_image_url = Storage::putFile('user/profile_images', $profileImage);
+    //         $updateData['profile_image'] = $user_profile_image_url;
+    //     }
+    //     // اگر عکس جدید ارسال نشد، فیلد profile_image در $updateData قرار نمی‌گیرد
+    //     // و عکس قبلی حفظ می‌شود
+
+    //     // 4. آپدیت کاربر
+    //     $user->update($updateData);
+
+    //     // 5. بازگرداندن پاسخ
+    //     return response()->json([
+    //         'message' => 'پروفایل با موفقیت تکمیل شد',
+    //         'user' => new UserResource($user)
+    //     ], 200);
+    // }
 }

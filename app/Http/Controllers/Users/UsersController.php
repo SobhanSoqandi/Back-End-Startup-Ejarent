@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Http\Controllers\Users;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class UsersController extends Controller
+{
+    public function getUsers()
+    {
+        $users = User::all();
+
+        return response()->json([
+            'message' => ' اطلاعات کاربران با موفقیت دریافت شد ',
+            'data' => $users
+        ] , 200);
+    }
+
+    public function getUser(User $user)
+    {
+        $user = User::find($user->id);
+        
+        return response()->json([
+            'message' => ' اطلاعات کاربر ردیافت شد ',
+            'data' =>  $user
+        ], 200 );
+
+    }
+}

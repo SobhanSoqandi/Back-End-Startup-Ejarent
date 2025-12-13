@@ -24,7 +24,7 @@ class AuthRequest extends FormRequest
         return [
             'phoneNumber' => 'required|string|regex:/^09[0-9]{9}$/',
             'name' => 'required|string|max:255',
-            'national_code' => 'required|digits:10',
+            'national_code' => 'nullable|digits:10',
             'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ];
     }

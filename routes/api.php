@@ -5,6 +5,7 @@ use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\categories\categorycontroller;
 use App\Http\Controllers\Reservation\ReservationController;
+use App\Http\Controllers\Users\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,13 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
+// Users 
+Route::get('/get-users', [UsersController::class, 'getUsers']);
+
+Route::get('/get-user/{user}', [UsersController::class, 'getUser']);
+
+
 
 
 // Authentication
