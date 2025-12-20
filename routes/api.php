@@ -32,6 +32,7 @@ Route::get('/get-user/{user}', [UsersController::class, 'getUser']);
 
 
 
+
 // Authentication
 Route::post('/SendOtp', [AuthController::class, 'SendOtp']);
 
@@ -47,11 +48,6 @@ Route::get('/Advertisements', [AdvertisementsController::class, 'index']);
 
 Route::get('/Advertisement/{advertisement}/show', [AdvertisementsController::class, 'show']);
 
-Route::put('/Advertisement/{advertisement}/update', [AdvertisementsController::class, 'update']);
-
-Route::delete('/Advertisement/{advertisement}/delete', [AdvertisementsController::class, 'delete']);
-
-Route::post('/Advertisement/store', [AdvertisementsController::class, 'store']);
 
 
 // Categories
@@ -66,6 +62,23 @@ Route::put('/category/{category}/update', [categorycontroller::class, 'update'])
 // Route::get('/category/{category}/show', [categorycontroller::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    // Advertisement : 
+
+    Route::post('/Advertisement/store', [AdvertisementsController::class, 'store']);
+
+    Route::put('/advertisement/{advertisement}/update', [AdvertisementsController::class, 'update']);
+
+    Route::delete('/Advertisement/{advertisement}/delete', [AdvertisementsController::class, 'delete']);
+
+    Route::get('/advertisement/my', [AdvertisementsController::class, 'myAdvertisements']);
+
+
+    Route::get('/user/profile', [UsersController::class, 'show']);
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+
     Route::get('/category/{category}/show', [categorycontroller::class, 'show']);
 });
 
@@ -87,4 +100,3 @@ Route::get('/myrequest/{userId}', [ReservationController::class, 'myRequest']);
 Route::get('/advertisement-request/{AdId}', [ReservationController::class, 'myAdvertisementRequest']);
 
 Route::put('/reserve/update-status/{reserveid}', [ReservationController::class, 'UpdateStatus']);
-

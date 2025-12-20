@@ -23,7 +23,8 @@ class User extends Authenticatable
         'otp',
         'otp_created_at',
         'national_code',
-        'profile_image'
+        'profile_image',
+        'gender'
     ];
 
     /**

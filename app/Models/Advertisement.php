@@ -14,6 +14,7 @@ class Advertisement extends Model
         'description',
         'price',
         'Id_category',
+        'user_id',
     ];
 
     public function category()
@@ -29,5 +30,11 @@ class Advertisement extends Model
     public function attributeValues()
     {
         return $this->hasMany(AdvertisementAttributeValue::class);
+    }
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

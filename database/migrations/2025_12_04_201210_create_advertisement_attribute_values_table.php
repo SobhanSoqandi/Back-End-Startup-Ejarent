@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('advertisement_attribute_values', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('advertisement_id')->constrained('advertisements');
+            $table->foreignId('advertisement_id')
+                ->constrained('advertisements')
+                ->cascadeOnDelete();
             $table->foreignId('attribute_id')->constrained('attributes');
             $table->string('value');
             $table->timestamps();

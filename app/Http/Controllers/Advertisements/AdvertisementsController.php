@@ -15,6 +15,9 @@ class AdvertisementsController extends Controller
 {
     public function show(Advertisement $advertisement)
     {
+
+        $advertisement->load('images');
+
         return response()->json([
             'message' => ' اطلاعات با موفقیت دریافت شد ',
             "data" => $advertisement
@@ -32,7 +35,10 @@ class AdvertisementsController extends Controller
 
     public function update(Advertisement $advertisement, Request $request)
     {
-        // dd($request->all()); 
+
+        $this->authorize('update', $advertisement);
+
+
         $advertisement->update(request()->all());
         $advertisement = Advertisement::find($advertisement->id);
         return response()->json([
@@ -44,6 +50,10 @@ class AdvertisementsController extends Controller
 
     public function delete(Advertisement $advertisement)
     {
+
+        $this->authorize('delete', $advertisement);
+
+
         $advertisement->delete();
         return response()->json([
             'message' => ' آگهی با موفقیت حذف شد ',
@@ -53,7 +63,12 @@ class AdvertisementsController extends Controller
 
     public function store(Request $request)
     {
-        $advertisement = Advertisement::create($request->all());
+        // $advertisement = Advertisement::create($request->all());
+
+        $advertisement = Advertisement::create(
+            $request->except('user_id') + ['user_id' => auth()->id()]
+        );
+
 
         if ($request->hasFile('images')) {
 
@@ -68,7 +83,6 @@ class AdvertisementsController extends Controller
             }
         }
 
-
         $attributes = $request->input('attributes', []);
 
         foreach ($attributes as $attr) {
@@ -79,12 +93,30 @@ class AdvertisementsController extends Controller
             ]);
         }
 
-
-
-
         return response()->json([
             'message' => ' آگهی با موفقیت ایجاد شد ',
             'data' => $advertisement,
         ], 201);
+    }
+
+
+
+
+
+
+
+    public function myAdvertisements()
+    {
+        $userId = auth()->id();
+
+        // $advertisements = Advertisement::where('user_id', $userId)->get();
+        $advertisements = Advertisement::with('images')
+            ->where('user_id', $userId)
+            ->get();
+
+        return response()->json([
+            'message' => 'لیست آگهی‌های شما با موفقیت دریافت شد',
+            'data' => $advertisements,
+        ], 200);
     }
 }
