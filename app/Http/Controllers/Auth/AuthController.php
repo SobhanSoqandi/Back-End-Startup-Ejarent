@@ -27,7 +27,7 @@ class AuthController extends Controller
             ['phoneNumber' => $request->phoneNumber],
             [
                 'otp' => $otp,
-                'otp_expires_at' => now()->addMinutes(2)
+                'otp_created_at' => now()
             ]
         );
         return response()->json([
@@ -56,7 +56,7 @@ class AuthController extends Controller
             ], 400);
         }
 
-        if (now()->greaterThan($user->otp_expires_at)) {
+        if ($user->isOtpExpired()) {
             return response()->json([
                 'message' => 'کد منقضی شده است، لطفاً مجدداً درخواست ارسال کد بدهید',
                 'valid' => false,

@@ -32,7 +32,7 @@ class UsersController extends Controller
 
 
 
-    
+
 
     public function show(Request $request)
     {
@@ -53,5 +53,18 @@ class UsersController extends Controller
                 'created_at' => $user->created_at,
             ]
         ]);
+    }
+
+
+
+
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return response()->json([
+            'message' => ' کاربر با موفقیت حذف شد ',
+            'data' =>  $user
+        ], 200);
     }
 }

@@ -29,6 +29,11 @@ Route::get('/get-users', [UsersController::class, 'getUsers']);
 
 Route::get('/get-user/{user}', [UsersController::class, 'getUser']);
 
+Route::get('/user/profile', [UsersController::class, 'show']);
+
+Route::delete('/user/{user}/destroy', [UsersController::class, 'destroy']);
+
+
 
 
 
@@ -74,9 +79,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/advertisement/my', [AdvertisementsController::class, 'myAdvertisements']);
 
 
-    Route::get('/user/profile', [UsersController::class, 'show']);
-
-    Route::post('/logout', [AuthController::class, 'logout']);
+    // Auth
+    Route::post('/user/logout', [AuthController::class, 'logout']);
 
 
     Route::get('/category/{category}/show', [categorycontroller::class, 'show']);
