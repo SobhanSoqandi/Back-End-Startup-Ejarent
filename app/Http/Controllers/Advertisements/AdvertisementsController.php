@@ -100,11 +100,6 @@ class AdvertisementsController extends Controller
     }
 
 
-
-
-
-
-
     public function myAdvertisements()
     {
         $userId = auth()->id();
@@ -117,6 +112,43 @@ class AdvertisementsController extends Controller
         return response()->json([
             'message' => 'لیست آگهی‌های شما با موفقیت دریافت شد',
             'data' => $advertisements,
+        ], 200);
+    }
+
+
+
+
+    public function search(Request $request)
+    {
+        $query = Advertisement::with('images');
+
+        // 🔍 جستجو
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('description', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // 📂 دسته‌بندی
+        if ($request->filled('category')) {
+            $query->where('Id_category', $request->category);
+        }
+
+        // 🔃 مرتب‌سازی
+        if ($request->filled('sort')) {
+            match ($request->sort) {
+                'cheap'     => $query->orderBy('price', 'asc'),
+                'expensive' => $query->orderBy('price', 'desc'),
+                default     => null,
+            };
+        }
+
+        $advertisements = $query->get();
+
+        return response()->json([
+            'data'  => $advertisements,
+            'total' => $advertisements->count(),
         ], 200);
     }
 }

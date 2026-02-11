@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Advertisements\AdvertisementsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+// Route::get('/search', [AdvertisementsController::class, 'search'])
+//     ->name('advertisements.search');

@@ -28,12 +28,6 @@ class UsersController extends Controller
         ], 200);
     }
 
-
-
-
-
-
-
     public function show(Request $request)
     {
         $user = $request->user();
@@ -44,14 +38,8 @@ class UsersController extends Controller
             ], 401);
         }
 
-
         return response()->json([
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'created_at' => $user->created_at,
-            ]
+            'user' => $user
         ]);
     }
 

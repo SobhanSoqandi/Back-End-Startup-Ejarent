@@ -29,8 +29,6 @@ Route::get('/get-users', [UsersController::class, 'getUsers']);
 
 Route::get('/get-user/{user}', [UsersController::class, 'getUser']);
 
-Route::get('/user/profile', [UsersController::class, 'show']);
-
 Route::delete('/user/{user}/destroy', [UsersController::class, 'destroy']);
 
 
@@ -51,6 +49,8 @@ Route::post('/complete-profile', [AuthController::class, 'completeprofile']);
 // Advertisement
 Route::get('/Advertisements', [AdvertisementsController::class, 'index']);
 
+Route::get('/Advertisements/search', [AdvertisementsController::class, 'search']);
+
 Route::get('/Advertisement/{advertisement}/show', [AdvertisementsController::class, 'show']);
 
 
@@ -69,14 +69,15 @@ Route::put('/category/{category}/update', [categorycontroller::class, 'update'])
 Route::middleware('auth:sanctum')->group(function () {
 
     // Advertisement : 
-
     Route::post('/Advertisement/store', [AdvertisementsController::class, 'store']);
 
     Route::put('/advertisement/{advertisement}/update', [AdvertisementsController::class, 'update']);
 
-    Route::delete('/Advertisement/{advertisement}/delete', [AdvertisementsController::class, 'delete']);
+    Route::delete('/advertisement/{advertisement}/delete', [AdvertisementsController::class, 'delete']);
 
     Route::get('/advertisement/my', [AdvertisementsController::class, 'myAdvertisements']);
+
+    Route::get('/user/profile', [UsersController::class, 'show']);
 
 
     // Auth
