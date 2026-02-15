@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,4 +37,12 @@ class Advertisement extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+        public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class, 'advertisement_attribute_values', 'advertisement_id', 'attribute_id')
+                    ->withPivot('value')
+                    ->withTimestamps();
+    }
 }
+

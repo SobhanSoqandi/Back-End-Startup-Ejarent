@@ -9,14 +9,13 @@ use App\Models\AdvertisementAttributeValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-// use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 class AdvertisementsController extends Controller
 {
     public function show(Advertisement $advertisement)
     {
-
-        $advertisement->load('images');
+       
+        $advertisement->load(['images', 'attributes']); // 👈 اینجا attributes رو اضافه کردم
 
         return response()->json([
             'message' => ' اطلاعات با موفقیت دریافت شد ',
@@ -26,7 +25,9 @@ class AdvertisementsController extends Controller
 
     public function index()
     {
-        $advertisement = Advertisement::all();
+       
+        $advertisement = Advertisement::with('attributes')->get(); 
+        
         return response()->json([
             'message' => ' لیست تمامی آگهی ها با موفقیت دریافت شد ',
             'data' => $advertisement,
@@ -35,48 +36,37 @@ class AdvertisementsController extends Controller
 
     public function update(Advertisement $advertisement, Request $request)
     {
-
         $this->authorize('update', $advertisement);
 
-
         $advertisement->update(request()->all());
-        $advertisement = Advertisement::find($advertisement->id);
+        
+        $advertisement = Advertisement::with('attributes')->find($advertisement->id); 
+        
         return response()->json([
             'message' => ' آگهی با موفقیت بروزرسانی شد ',
             "data" => $advertisement
-        ], status: 200);
+        ], 200);
     }
-
 
     public function delete(Advertisement $advertisement)
     {
-
         $this->authorize('delete', $advertisement);
-
 
         $advertisement->delete();
         return response()->json([
             'message' => ' آگهی با موفقیت حذف شد ',
-        ], status: 200);
+        ], 200);
     }
-
 
     public function store(Request $request)
     {
-        // $advertisement = Advertisement::create($request->all());
-
         $advertisement = Advertisement::create(
             $request->except('user_id') + ['user_id' => auth()->id()]
         );
 
-
         if ($request->hasFile('images')) {
-
             foreach ($request->file('images') as $image) {
-
-
                 $path = Storage::putFile('advertisements/images', $image);
-
                 $advertisement->images()->create([
                     'image_path' => $path,
                 ]);
@@ -84,7 +74,6 @@ class AdvertisementsController extends Controller
         }
 
         $attributes = $request->input('attributes', []);
-
         foreach ($attributes as $attr) {
             AdvertisementAttributeValue::create([
                 'advertisement_id' => $advertisement->id,
@@ -93,20 +82,18 @@ class AdvertisementsController extends Controller
             ]);
         }
 
+        $advertisement->load('attributes'); 
         return response()->json([
             'message' => ' آگهی با موفقیت ایجاد شد ',
             'data' => $advertisement,
         ], 201);
     }
 
-
     public function myAdvertisements()
     {
         $userId = auth()->id();
 
-        // $advertisements = Advertisement::where('user_id', $userId)->get();
-        $advertisements = Advertisement::with('images')
-            ->where('user_id', $userId)
+        $advertisements = Advertisement::with(['images', 'attributes']) 
             ->get();
 
         return response()->json([
@@ -115,14 +102,10 @@ class AdvertisementsController extends Controller
         ], 200);
     }
 
-
-
-
     public function search(Request $request)
     {
-        $query = Advertisement::with('images');
+        $query = Advertisement::with(['images', 'attributes']); 
 
-        // 🔍 جستجو
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('title', 'like', '%' . $request->search . '%')
@@ -130,12 +113,10 @@ class AdvertisementsController extends Controller
             });
         }
 
-        // 📂 دسته‌بندی
         if ($request->filled('category')) {
             $query->where('Id_category', $request->category);
         }
 
-        // 🔃 مرتب‌سازی
         if ($request->filled('sort')) {
             match ($request->sort) {
                 'cheap'     => $query->orderBy('price', 'asc'),
